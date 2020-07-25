@@ -113,13 +113,16 @@
 <h4 id="中断优先级的分组"><a href="#中断优先级的分组" class="headerlink" title="中断优先级的分组"></a>中断优先级的分组</h4><p>优先级分组                主优先级            子优先级<br>NVIC_PriorityGroup_0        0              0-15<br>NVIC_PriorityGroup_1        1              0-7<br>NVIC_PriorityGroup_2       0-3             0-3<br>NVIC_PriorityGroup_3       0-7             0-1<br>NVIC_PriorityGroup_4       0-15             0<br>设定函数：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">NVIC_PriorityGroupConfig(uint32_t NVIC_PriorityGroup);</span><br></pre></td></tr></table></figure>
 
-<h3 id="中断编程顺序"><a href="#中断编程顺序" class="headerlink" title="中断编程顺序"></a>中断编程顺序</h3><pre><code>   使能中断请求
-       |
-       V
-配置中断优先级分组
-       |
-       V</code></pre><p>  配置NVIC寄存器，初始化NVIC_InitTypeDef;<br>                   |<br>                   V<br>             编写中断服务函数</p>
-<h4 id="使能中断请求"><a href="#使能中断请求" class="headerlink" title="使能中断请求"></a>使能中断请求</h4><p>该项具体到外设</p>
+<h3 id="中断编程顺序"><a href="#中断编程顺序" class="headerlink" title="中断编程顺序"></a>中断编程顺序</h3><pre><code>          使能中断请求
+              |
+              V
+       配置中断优先级分组
+              |
+              V
+配置NVIC寄存器，初始化NVIC_InitTypeDef;
+              |
+              V
+        编写中断服务函数</code></pre><h4 id="使能中断请求"><a href="#使能中断请求" class="headerlink" title="使能中断请求"></a>使能中断请求</h4><p>该项具体到外设</p>
 <h4 id="中断优先级分组"><a href="#中断优先级分组" class="headerlink" title="中断优先级分组"></a>中断优先级分组</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">NVIC_PriorityGroupConfig(uint32_t NVIC_PriorityGroup);</span><br></pre></td></tr></table></figure>
 <h4 id="NVIC-InitTypeDef"><a href="#NVIC-InitTypeDef" class="headerlink" title="NVIC_InitTypeDef"></a>NVIC_InitTypeDef</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">NVIC_InitStruct.NVIC_IRQChannel:中断源</span><br><span class="line">NVIC_InitStruct.NVIC_IRQChannelPreemptionPriority：抢占优先级</span><br><span class="line">NVIC_InitStruct.NVIC_IRQChannelSubPriority：子优先级</span><br><span class="line">NVIC_InitStruct.NVIC_IRQChannelCmd：使能或失能</span><br><span class="line">NVIC_Init();</span><br></pre></td></tr></table></figure>
 
