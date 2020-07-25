@@ -45,7 +45,7 @@
     <h2 class="author">ZWZ</h2>
     <h3 class="description">调参侠，爱好是用各种轮子拼一辆小破车</h3>
     <div class="count-box">
-      <a href="/archives"><div><strong>5</strong><br>文章</div></a>
+      <a href="/archives"><div><strong>6</strong><br>文章</div></a>
       <a href="/categories"><div><strong>0</strong><br>分类</div></a>
       <a href="/tags"><div><strong>0</strong><br>标签</div></a>
     </div>
@@ -72,6 +72,66 @@
 </div>
 
         <section id="main">
+  
+    <article id="post-stm32读取按键" class="wow slideInRight article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/07/24/stm32%E8%AF%BB%E5%8F%96%E6%8C%89%E9%94%AE/" class="article-date">
+  <time class="post-time" datetime="2020-07-24T11:53:05.533Z" itemprop="datePublished">
+    <span class="post-month">7月</span><br/>
+    <span class="post-day">24</span>
+  </time>
+</a>
+   
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/07/24/stm32%E8%AF%BB%E5%8F%96%E6%8C%89%E9%94%AE/">STM32读取按键</a>
+    </h1>
+  
+
+        <div>
+          
+          
+              
+
+          
+        </div>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>之前已经通过点灯的方式实现了对GPIO写入的操作，今天要做的便是读取<br>GPIO引脚的状态，引脚电平通过TTL肖特基触发器，大于1.8V的输出为1，<br>低于1.8v的输出为0，加载到ODR寄存器中，通过读取寄存器的值便可以读<br>出引脚的状态。</p>
+<h2 id="读取按键"><a href="#读取按键" class="headerlink" title="读取按键"></a>读取按键</h2><h2 id="第一步：初始化GPIO"><a href="#第一步：初始化GPIO" class="headerlink" title="第一步：初始化GPIO"></a>第一步：初始化GPIO</h2><h3 id="宏定义引脚，增加可读性"><a href="#宏定义引脚，增加可读性" class="headerlink" title="宏定义引脚，增加可读性"></a>宏定义引脚，增加可读性</h3><p>为了使程序更加的清晰，同时也是为了增加程序的可移植性，在程序里面<br>关于引脚的定义选择宏定义，具体操作如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#define Key1_GPIO_CLK   RCC_APB2Periph_GPIOC</span></span><br><span class="line"><span class="comment">#define Key1_GPIO_Port  GPIOC</span></span><br><span class="line"><span class="comment">#define Key1_GPIO_Pin   GPIO_Pin_13</span></span><br></pre></td></tr></table></figure>
+<p>宏定义将RCC_APB2Periph_GPIOC替换为了Key1_GPIO_CLK，这样在程序<br>里面就可以清楚地看到初始化的是哪一个外设的时钟，程序的可读性也大<br>大的提高了。</p>
+<h3 id="初始化GPIO"><a href="#初始化GPIO" class="headerlink" title="初始化GPIO"></a>初始化GPIO</h3><p>初始化GPIO的操作与之前点灯时候的操作大体一致，不过由于按键是输入，<br>所以GPIO_SPEED可以不去配置，初始化代码如下:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">void Key_Init()</span><br><span class="line">&#123;</span><br><span class="line">	GPIO_InitTypeDef GPIO_InitTStruct;</span><br><span class="line">	//KEY1,KEY2引脚时钟使能</span><br><span class="line">	RCC_APB2PeriphClockCmd(Key1_GPIO_CLK|Key2_GPIO_CLK,ENABLE);//宏定义用Key1_GPIO_CLK代替RCC_APB2Periph_GPIOC</span><br><span class="line">	</span><br><span class="line">	//初始化key1引脚</span><br><span class="line">	GPIO_InitTStruct.GPIO_Pin = Key1_GPIO_Pin;</span><br><span class="line">	GPIO_InitTStruct.GPIO_Mode = GPIO_Mode_IN_FLOATING;</span><br><span class="line">	//GPIO_InitTStruct.GPIO_Speed = GPIO_Speed_10MHz;输出时需要配置速度</span><br><span class="line">	GPIO_Init(Key1_GPIO_Port,&amp;GPIO_InitTStruct);</span><br><span class="line">	</span><br><span class="line">	//初始化key2引脚</span><br><span class="line">	GPIO_InitTStruct.GPIO_Pin = Key2_GPIO_Pin;</span><br><span class="line">	GPIO_InitTStruct.GPIO_Mode = GPIO_Mode_IN_FLOATING;</span><br><span class="line">	GPIO_Init(Key2_GPIO_Port,&amp;GPIO_InitTStruct);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>按键为输入部分，所以引脚模式（GPIO_Mode）设置为浮空输入（GPIO_Mode_IN_FLOATING）。</p>
+<h3 id="按键检测"><a href="#按键检测" class="headerlink" title="按键检测"></a>按键检测</h3><p>通过上面的步骤我们已经初始化好了GPIO所需要的的引脚，接下来要做的便是<br>读取到ODR寄存器里面的值，由于库函数已经写好了读取的函数，我们直接调<br>用即可：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">GPIO_ReadInputDataBit(GPIOx,GPIO_Pin)；//这是只读取一个引脚状态的函数</span><br><span class="line">GPIO_ReadInputData(GPIOx);             //读取这个端口里所有的引脚的值</span><br></pre></td></tr></table></figure>
+<p>按键检测函数：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">uint16_t Keyscan(GPIO_TypeDef* GPIOx,uint16_t GPIO_Pin)  //按键扫描函数</span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">if</span>(GPIO_ReadInputDataBit(GPIOx,GPIO_Pin))</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">while</span>(GPIO_ReadInputDataBit(GPIOx,GPIO_Pin)==Key_On);//松手检测</span><br><span class="line">		<span class="built_in">return</span> Key_On;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span></span><br><span class="line">	 <span class="built_in">return</span> Key_Off;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>按键检测这就差不多结束了，之后只需要调用Keyscan()这个函数即可，具体<br>功能可以自行决定。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://zwz522623.github.io.git/2020/07/24/stm32%E8%AF%BB%E5%8F%96%E6%8C%89%E9%94%AE/" data-id="ckd0yk46x0000scur1gt30oxt" class="article-share-link">分享</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+
   
     <article id="post-stm32入门" class="wow slideInRight article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
@@ -425,7 +485,7 @@ GPIO_ResetBits(GPIOC,GPIO_Pin_2);//复位，输出低</code></pre>
     <h2 class="author">ZWZ</h2>
     <h3 class="description">调参侠，爱好是用各种轮子拼一辆小破车</h3>
     <div class="count-box">
-      <a href="/archives"><div><strong>5</strong><br>文章</div></a>
+      <a href="/archives"><div><strong>6</strong><br>文章</div></a>
       <a href="/categories"><div><strong>0</strong><br>分类</div></a>
       <a href="/tags"><div><strong>0</strong><br>标签</div></a>
     </div>
