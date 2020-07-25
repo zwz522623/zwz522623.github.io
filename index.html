@@ -45,7 +45,7 @@
     <h2 class="author">ZWZ</h2>
     <h3 class="description">调参侠，爱好是用各种轮子拼一辆小破车</h3>
     <div class="count-box">
-      <a href="/archives"><div><strong>6</strong><br>文章</div></a>
+      <a href="/archives"><div><strong>7</strong><br>文章</div></a>
       <a href="/categories"><div><strong>0</strong><br>分类</div></a>
       <a href="/tags"><div><strong>0</strong><br>标签</div></a>
     </div>
@@ -72,6 +72,74 @@
 </div>
 
         <section id="main">
+  
+    <article id="post-STM32中断概述" class="wow slideInRight article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/07/25/STM32%E4%B8%AD%E6%96%AD%E6%A6%82%E8%BF%B0/" class="article-date">
+  <time class="post-time" datetime="2020-07-25T03:04:05.953Z" itemprop="datePublished">
+    <span class="post-month">7月</span><br/>
+    <span class="post-day">25</span>
+  </time>
+</a>
+   
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/07/25/STM32%E4%B8%AD%E6%96%AD%E6%A6%82%E8%BF%B0/">STM32中断概述（不止于F103）</a>
+    </h1>
+  
+
+        <div>
+          
+          
+              
+
+          
+        </div>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="中断应用概念"><a href="#中断应用概念" class="headerlink" title="中断应用概念"></a>中断应用概念</h2><h3 id="中断类型"><a href="#中断类型" class="headerlink" title="中断类型"></a>中断类型</h3><p>系统中断：体现在内核水平<br>外部中断：体现在外设水平</p>
+<h2 id="NVIC嵌套向量中断控制器"><a href="#NVIC嵌套向量中断控制器" class="headerlink" title="NVIC嵌套向量中断控制器"></a>NVIC嵌套向量中断控制器</h2><h3 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h3><p>NVIC:嵌套向量中断控制器，属于内核外设，管理着包括内核和片上所有<br>外设的相关功能。<br>两个重要的库文件：<br>                core_cm3.h  定义寄存器<br>                misc.h      定义相关函数</p>
+<h3 id="中断优先级的定义"><a href="#中断优先级的定义" class="headerlink" title="中断优先级的定义"></a>中断优先级的定义</h3><h4 id="优先级的设定"><a href="#优先级的设定" class="headerlink" title="优先级的设定"></a>优先级的设定</h4><p>中断优先级由IPR寄存器设定：NVIC-&gt;IPRx<br>设定函数:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">NVIC_SetPriority(IRQn_TypeIRQn,uint32_t priority);  //中断号，中断优先级</span><br></pre></td></tr></table></figure>
+
+<h4 id="中断优先级的分组"><a href="#中断优先级的分组" class="headerlink" title="中断优先级的分组"></a>中断优先级的分组</h4><p>优先级分组                主优先级            子优先级<br>NVIC_PriorityGroup_0        0              0-15<br>NVIC_PriorityGroup_1        1              0-7<br>NVIC_PriorityGroup_2       0-3             0-3<br>NVIC_PriorityGroup_3       0-7             0-1<br>NVIC_PriorityGroup_4       0-15             0<br>设定函数：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">NVIC_PriorityGroupConfig(uint32_t NVIC_PriorityGroup);</span><br></pre></td></tr></table></figure>
+
+<h3 id="中断编程顺序"><a href="#中断编程顺序" class="headerlink" title="中断编程顺序"></a>中断编程顺序</h3><pre><code>   使能中断请求
+       |
+       V
+配置中断优先级分组
+       |
+       V</code></pre><p>  配置NVIC寄存器，初始化NVIC_InitTypeDef;<br>                   |<br>                   V<br>             编写中断服务函数</p>
+<h4 id="使能中断请求"><a href="#使能中断请求" class="headerlink" title="使能中断请求"></a>使能中断请求</h4><p>该项具体到外设</p>
+<h4 id="中断优先级分组"><a href="#中断优先级分组" class="headerlink" title="中断优先级分组"></a>中断优先级分组</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">NVIC_PriorityGroupConfig(uint32_t NVIC_PriorityGroup);</span><br></pre></td></tr></table></figure>
+<h4 id="NVIC-InitTypeDef"><a href="#NVIC-InitTypeDef" class="headerlink" title="NVIC_InitTypeDef"></a>NVIC_InitTypeDef</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">NVIC_InitStruct.NVIC_IRQChannel:中断源</span><br><span class="line">NVIC_InitStruct.NVIC_IRQChannelPreemptionPriority：抢占优先级</span><br><span class="line">NVIC_InitStruct.NVIC_IRQChannelSubPriority：子优先级</span><br><span class="line">NVIC_InitStruct.NVIC_IRQChannelCmd：使能或失能</span><br><span class="line">NVIC_Init();</span><br></pre></td></tr></table></figure>
+
+<h4 id="编写中断服务函数"><a href="#编写中断服务函数" class="headerlink" title="编写中断服务函数"></a>编写中断服务函数</h4><p>中断服务函数名称要与中断向量表中一至，否则进不去中断<br>stm32f10x_it.c默认放置中断服务函数，方便分配优先级</p>
+<p><img src="https://image.baidu.com/search/detail?ct=503316480&z=undefined&tn=baiduimagedetail&ipn=d&word=%E5%A5%A5%E5%B0%94%E5%8A%A0%E4%B8%8D%E8%A6%81%E5%81%9C%E4%B8%8B%E6%9D%A5&step_word=&ie=utf-8&in=&cl=2&lm=-1&st=undefined&hd=undefined&latest=undefined&copyright=undefined&cs=1861462371,1849573485&os=2548686085,4258025421&simid=0,0&pn=1&rn=1&di=33020&ln=229&fr=&fmq=1595648989176_R&fm=&ic=undefined&s=undefined&se=&sme=&tab=0&width=undefined&height=undefined&face=undefined&is=0,0&istype=0&ist=&jit=&bdtype=10&spn=0&pi=0&gsm=0&objurl=http%3A%2F%2Ft7.baidu.com%2Fit%2Fu%3D2333738978%2C900919767%26fm%3D193&rpstart=0&rpnum=0&adpicid=0&force=undefined" alt="avatar"></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://zwz522623.github.io.git/2020/07/25/STM32%E4%B8%AD%E6%96%AD%E6%A6%82%E8%BF%B0/" data-id="ckd148kdm000038urcm6t5wx4" class="article-share-link">分享</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+
   
     <article id="post-stm32读取按键" class="wow slideInRight article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
@@ -485,7 +553,7 @@ GPIO_ResetBits(GPIOC,GPIO_Pin_2);//复位，输出低</code></pre>
     <h2 class="author">ZWZ</h2>
     <h3 class="description">调参侠，爱好是用各种轮子拼一辆小破车</h3>
     <div class="count-box">
-      <a href="/archives"><div><strong>6</strong><br>文章</div></a>
+      <a href="/archives"><div><strong>7</strong><br>文章</div></a>
       <a href="/categories"><div><strong>0</strong><br>分类</div></a>
       <a href="/tags"><div><strong>0</strong><br>标签</div></a>
     </div>
