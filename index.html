@@ -45,7 +45,7 @@
     <h2 class="author">ZWZ</h2>
     <h3 class="description">调参侠，爱好是用各种轮子拼一辆小破车</h3>
     <div class="count-box">
-      <a href="/archives"><div><strong>7</strong><br>文章</div></a>
+      <a href="/archives"><div><strong>8</strong><br>文章</div></a>
       <a href="/categories"><div><strong>0</strong><br>分类</div></a>
       <a href="/tags"><div><strong>0</strong><br>标签</div></a>
     </div>
@@ -72,6 +72,58 @@
 </div>
 
         <section id="main">
+  
+    <article id="post-EXTI初体验_(&#39;&#39;&#39;)" class="wow slideInRight article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/07/25/EXTI%E5%88%9D%E4%BD%93%E9%AA%8C_(''')/" class="article-date">
+  <time class="post-time" datetime="2020-07-25T09:28:10.385Z" itemprop="datePublished">
+    <span class="post-month">7月</span><br/>
+    <span class="post-day">25</span>
+  </time>
+</a>
+   
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/07/25/EXTI%E5%88%9D%E4%BD%93%E9%AA%8C_(''')/">EXTI外部中断/事件控制器</a>
+    </h1>
+  
+
+        <div>
+          
+          
+              
+
+          
+        </div>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="编程步骤"><a href="#编程步骤" class="headerlink" title="编程步骤"></a>编程步骤</h2><h3 id="初始化要连接到EXTI的GPIO"><a href="#初始化要连接到EXTI的GPIO" class="headerlink" title="初始化要连接到EXTI的GPIO"></a>初始化要连接到EXTI的GPIO</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">GPIO_InitTypeDef GPIO_InitStruct;</span><br><span class="line">//初始化要连接到EXTI的GPIO</span><br><span class="line">RCC_APB2PeriphClockCmd(Key1_Clock|Key2_Clock,ENABLE);</span><br><span class="line"></span><br><span class="line">GPIO_InitStruct.GPIO_Pin = Key1_Pin;</span><br><span class="line">GPIO_InitStruct.GPIO_Mode = GPIO_Mode_IN_FLOATING;</span><br><span class="line">GPIO_Init(Key1_Port,&amp;GPIO_InitStruct);</span><br><span class="line">GPIO_InitStruct.GPIO_Pin = Key2_Pin;</span><br><span class="line">GPIO_InitStruct.GPIO_Mode = GPIO_Mode_IN_FLOATING;</span><br><span class="line">GPIO_Init(Key2_Port,&amp;GPIO_InitStruct);</span><br></pre></td></tr></table></figure>
+<h3 id="初始化EXTI用于产生中断-事件（记得使能AFIO时钟）"><a href="#初始化EXTI用于产生中断-事件（记得使能AFIO时钟）" class="headerlink" title="初始化EXTI用于产生中断/事件（记得使能AFIO时钟）"></a>初始化EXTI用于产生中断/事件（记得使能AFIO时钟）</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">   EXTI_InitTypeDef EXTI_InitStruct;</span><br><span class="line">   //初始化EXTI外设</span><br><span class="line">RCC_APB2PeriphClockCmd(RCC_APB2Periph_AFIO,ENABLE);//初始化AFIO时钟</span><br><span class="line">GPIO_EXTILineConfig(Key2_GPIO_PortSource,Key2_GPIO_PinSource); </span><br><span class="line">EXTI_InitStruct.EXTI_Line = Key2_EXTI;</span><br><span class="line">EXTI_InitStruct.EXTI_Mode = EXTI_Mode_Interrupt;</span><br><span class="line">EXTI_InitStruct.EXTI_Trigger = EXTI_Trigger_Rising;//上升沿触发</span><br><span class="line">EXTI_InitStruct.EXTI_LineCmd = ENABLE;</span><br><span class="line">EXTI_Init(&amp;EXTI_InitStruct);</span><br><span class="line">GPIO_EXTILineConfig(Key1_GPIO_PortSource,Key1_GPIO_PinSource); </span><br><span class="line">EXTI_InitStruct.EXTI_Line = Key1_EXTI;</span><br><span class="line">EXTI_InitStruct.EXTI_Mode = EXTI_Mode_Interrupt;</span><br><span class="line">EXTI_InitStruct.EXTI_Trigger = EXTI_Trigger_Falling;//下降沿触发</span><br><span class="line">EXTI_InitStruct.EXTI_LineCmd = ENABLE;</span><br><span class="line">EXTI_Init(&amp;EXTI_InitStruct);</span><br></pre></td></tr></table></figure>
+<p>GPIO_EXTILineConfig函数是选择中断源的GPIO函数<br>EXTI_Line是选择输入线从EXTI_Line0到EXTI_Line19<br>EXTI_Mode有两个选择，一个是EXTI_Mode_Interrupt，另一个是EXTI_Mode_Event<br>EXTI_Trigger通过配置这个可以选择触发方式</p>
+<p>![系统框图]（C:\Users\1\Desktop\jieping\捕获.png）</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://zwz522623.github.io.git/2020/07/25/EXTI%E5%88%9D%E4%BD%93%E9%AA%8C_(''')/" data-id="ckd1gl3jc0000okur0dbcfsbc" class="article-share-link">分享</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+
   
     <article id="post-STM32中断概述" class="wow slideInRight article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
@@ -113,16 +165,16 @@
 <h4 id="中断优先级的分组"><a href="#中断优先级的分组" class="headerlink" title="中断优先级的分组"></a>中断优先级的分组</h4><p>优先级分组                主优先级            子优先级<br>NVIC_PriorityGroup_0        0              0-15<br>NVIC_PriorityGroup_1        1              0-7<br>NVIC_PriorityGroup_2       0-3             0-3<br>NVIC_PriorityGroup_3       0-7             0-1<br>NVIC_PriorityGroup_4       0-15             0<br>设定函数：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">NVIC_PriorityGroupConfig(uint32_t NVIC_PriorityGroup);</span><br></pre></td></tr></table></figure>
 
-<h3 id="中断编程顺序"><a href="#中断编程顺序" class="headerlink" title="中断编程顺序"></a>中断编程顺序</h3><pre><code>          使能中断请求
-              |
-              V
-       配置中断优先级分组
-              |
-              V
+<h3 id="中断编程顺序"><a href="#中断编程顺序" class="headerlink" title="中断编程顺序"></a>中断编程顺序</h3><pre><code>       使能中断请求
+           |
+           V
+    配置中断优先级分组
+           |
+           V
 配置NVIC寄存器，初始化NVIC_InitTypeDef;
-              |
-              V
-        编写中断服务函数</code></pre><h4 id="使能中断请求"><a href="#使能中断请求" class="headerlink" title="使能中断请求"></a>使能中断请求</h4><p>该项具体到外设</p>
+           |
+           V
+     编写中断服务函数</code></pre><h4 id="使能中断请求"><a href="#使能中断请求" class="headerlink" title="使能中断请求"></a>使能中断请求</h4><p>该项具体到外设</p>
 <h4 id="中断优先级分组"><a href="#中断优先级分组" class="headerlink" title="中断优先级分组"></a>中断优先级分组</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">NVIC_PriorityGroupConfig(uint32_t NVIC_PriorityGroup);</span><br></pre></td></tr></table></figure>
 <h4 id="NVIC-InitTypeDef"><a href="#NVIC-InitTypeDef" class="headerlink" title="NVIC_InitTypeDef"></a>NVIC_InitTypeDef</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">NVIC_InitStruct.NVIC_IRQChannel:中断源</span><br><span class="line">NVIC_InitStruct.NVIC_IRQChannelPreemptionPriority：抢占优先级</span><br><span class="line">NVIC_InitStruct.NVIC_IRQChannelSubPriority：子优先级</span><br><span class="line">NVIC_InitStruct.NVIC_IRQChannelCmd：使能或失能</span><br><span class="line">NVIC_Init();</span><br></pre></td></tr></table></figure>
 
@@ -556,7 +608,7 @@ GPIO_ResetBits(GPIOC,GPIO_Pin_2);//复位，输出低</code></pre>
     <h2 class="author">ZWZ</h2>
     <h3 class="description">调参侠，爱好是用各种轮子拼一辆小破车</h3>
     <div class="count-box">
-      <a href="/archives"><div><strong>7</strong><br>文章</div></a>
+      <a href="/archives"><div><strong>8</strong><br>文章</div></a>
       <a href="/categories"><div><strong>0</strong><br>分类</div></a>
       <a href="/tags"><div><strong>0</strong><br>标签</div></a>
     </div>
