@@ -45,7 +45,7 @@
     <h2 class="author">ZWZ</h2>
     <h3 class="description">调参侠，爱好是用各种轮子拼一辆小破车</h3>
     <div class="count-box">
-      <a href="/archives"><div><strong>8</strong><br>文章</div></a>
+      <a href="/archives"><div><strong>9</strong><br>文章</div></a>
       <a href="/categories"><div><strong>0</strong><br>分类</div></a>
       <a href="/tags"><div><strong>0</strong><br>标签</div></a>
     </div>
@@ -72,6 +72,66 @@
 </div>
 
         <section id="main">
+  
+    <article id="post-stm32_ADC(独立模式单通道)" class="wow slideInRight article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/07/26/stm32_ADC(%E7%8B%AC%E7%AB%8B%E6%A8%A1%E5%BC%8F%E5%8D%95%E9%80%9A%E9%81%93)/" class="article-date">
+  <time class="post-time" datetime="2020-07-26T06:34:21.677Z" itemprop="datePublished">
+    <span class="post-month">7月</span><br/>
+    <span class="post-day">26</span>
+  </time>
+</a>
+   
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/07/26/stm32_ADC(%E7%8B%AC%E7%AB%8B%E6%A8%A1%E5%BC%8F%E5%8D%95%E9%80%9A%E9%81%93)/">STM32 ADC功能实现</a>
+    </h1>
+  
+
+        <div>
+          
+          
+              
+
+          
+        </div>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>STM32的外部16个通道分为规则通道和注入通道。注入通道最多有<br>四路。<br>这篇文章针对于stm32的独立模式单通道中断读取AD值。<br>编写ad采集程序分为以下几步：</p>
+<h2 id="初始化ADC用到的GPIO"><a href="#初始化ADC用到的GPIO" class="headerlink" title="初始化ADC用到的GPIO"></a>初始化ADC用到的GPIO</h2><p>初始化GPIO是使用ADC外设的时候不可缺少的一部分，通过芯片手册<br>上标注好的ADC引脚图选择ADC引脚并对其初始化。下图是ZET6的ADC<br>引脚分布：<br><img src="https://imgchr.com/i/a9Kb7j" alt="ZET6ADC引脚分布"><br>这里我们初始化GPIO的代码就不再赘述，忘了的话可以翻阅一下前面<br>的文章。</p>
+<h2 id="初始化ADC初始化结构体"><a href="#初始化ADC初始化结构体" class="headerlink" title="初始化ADC初始化结构体"></a>初始化ADC初始化结构体</h2><p>首先是初始化ADC时钟:ADC需要两个时钟，一个是外设时钟，另一个是采样时钟<br>第一步初始化的是ADC2的外设时钟：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">RCC_APB2PeriphClockCmd(RCC_APB2Periph_ADC2,ENABLE);</span><br></pre></td></tr></table></figure>
+<p><img src="https://imgchr.com/i/a9KojS" alt="ADC初始化结构体"><br>之后是配置ADC工作模式,由于选用的是独立模式单通道，所以ADC工作参数具体<br>配置为：独立模式、单通道采集不需要扫描、启动连续转换、使用内部软件触发无<br>需外部触发事件、使用右对齐数据格式、转换通道为 1，并调用 ADC_Init函数完<br>成ADC工作环境配置。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">ADC_InitStruct.ADC_Mode = ADC_Mode_Independent;//独立模式</span><br><span class="line">ADC_InitStruct.ADC_ScanConvMode = DISABLE;//禁止扫描模式，多通道才需要扫描，单通道不需要</span><br><span class="line">ADC_InitStruct.ADC_ContinuousConvMode = ENABLE;//连续扫描模式</span><br><span class="line">ADC_InitStruct.ADC_ExternalTrigConv = ADC_ExternalTrigConv_None;//不用外部触发转换，软件开启即可</span><br><span class="line">ADC_InitStruct.ADC_DataAlign = ADC_DataAlign_Right;//转换结果右对齐</span><br><span class="line">ADC_InitStruct.ADC_NbrOfChannel = 1;//转换通道一个</span><br></pre></td></tr></table></figure>
+<p>将配置好的结构体成员写到寄存器里面</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ADC_Init(ADC2,&amp;ADC_InitStruct);//初始化ADC</span><br></pre></td></tr></table></figure>
+<p>RCC_ADCCLKConfig()函数用来配置 ADC 的工作时钟，接收一个参数，设置的是<br>PCLK2 的分频系数， ADC 的时钟最大不能超过 14M。<br>ADC_RegularChannelConfig 函数用来绑定 ADC 通道的转换顺序和采样时间。它接收 4<br>个形参，第一个形参选择 ADC 外设，可为 ADC1、 ADC2 或 ADC3；第二个形参通道选择，<br>总共可选 18 个通道；第三个形参为通道的转换顺序，可选为 1 到 16；第四个形参为采样<br>周期选择，采样周期越短， ADC 转换数据输出周期就越短但数据精度也越低，采样周期越<br>长，ADC转换数据输出周期就越长同时数据精度越高。<br>利用ADC转换完成中断可以非常方便的保证我们读取到的数据是转换完成后的数据<br>而不用担心该数据可能是 ADC 正在转换时“不稳定”的数据。我们使用ADC_ITConfig函<br>数使能ADC转换完成中断，并在中断服务函数中读取转换结果数据。<br>ADC_Cmd 函数控制ADC转换启动和停止。<br>最后，在ADC校准之后调用 ADC_SoftwareStartConvCmd 函数进行软件触发 ADC 开<br>始转换。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">      //配置ADC时钟为PCLK的8分频，即9MHZ</span><br><span class="line">RCC_ADCCLKConfig(RCC_PCLK2_Div8);</span><br><span class="line">//配置ADC通道转换顺序和采样时间</span><br><span class="line">ADC_RegularChannelConfig(ADCx,ADC_Channel_1,1,ADC_SampleTime_55Cycles5);</span><br><span class="line">   //adc转换结束产生中断，在中断服务函数中读取转换值</span><br><span class="line">ADC_ITConfig(ADCx,ADC_IT_EOC,ENABLE);</span><br><span class="line">//开启ADC并开始转换</span><br><span class="line">ADC_Cmd(ADCx,ENABLE);</span><br><span class="line">//初始化ADC,校准寄存器</span><br><span class="line">ADC_ResetCalibration(ADCx);</span><br><span class="line">//等待校准寄存器初始化完成</span><br><span class="line"><span class="keyword">while</span>(ADC_GetResetCalibrationStatus(ADCx));</span><br><span class="line">//adc开始校准</span><br><span class="line">ADC_StartCalibration(ADCx);</span><br><span class="line">//等待校准完成</span><br><span class="line"><span class="keyword">while</span>(ADC_GetCalibrationStatus(ADCx));</span><br><span class="line">//由于没有采用外部触发，所以使用软件触发ADC转换</span><br><span class="line">ADC_SoftwareStartConvCmd(ADCx,ENABLE);</span><br></pre></td></tr></table></figure>
+<h2 id="ADC中断配置"><a href="#ADC中断配置" class="headerlink" title="ADC中断配置"></a>ADC中断配置</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">static void ADCx_NVIC_Config(void)</span><br><span class="line">&#123;</span><br><span class="line">		NVIC_InitTypeDef  NVIC_InitStruct;</span><br><span class="line">		//中断优先级分组</span><br><span class="line">		NVIC_PriorityGroupConfig(NVIC_PriorityGroup_1);</span><br><span class="line">		NVIC_InitStruct.NVIC_IRQChannel = ADC_IRQ;</span><br><span class="line">		NVIC_InitStruct.NVIC_IRQChannelPreemptionPriority = 1;</span><br><span class="line">	  NVIC_InitStruct.NVIC_IRQChannelSubPriority = 1;</span><br><span class="line">		NVIC_InitStruct.NVIC_IRQChannelCmd = ENABLE;</span><br><span class="line">		NVIC_Init(&amp;NVIC_InitStruct);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="ADC初始化"><a href="#ADC初始化" class="headerlink" title="ADC初始化"></a>ADC初始化</h2><p>配置完以上三步，ADC即可完成初始化</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://zwz522623.github.io.git/2020/07/26/stm32_ADC(%E7%8B%AC%E7%AB%8B%E6%A8%A1%E5%BC%8F%E5%8D%95%E9%80%9A%E9%81%93)/" data-id="ckd2r07bn0000ewur38zi8gwx" class="article-share-link">分享</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+
   
     <article id="post-EXTI初体验_(&#39;&#39;&#39;)" class="wow slideInRight article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
@@ -616,7 +676,7 @@ GPIO_ResetBits(GPIOC,GPIO_Pin_2);//复位，输出低</code></pre>
     <h2 class="author">ZWZ</h2>
     <h3 class="description">调参侠，爱好是用各种轮子拼一辆小破车</h3>
     <div class="count-box">
-      <a href="/archives"><div><strong>8</strong><br>文章</div></a>
+      <a href="/archives"><div><strong>9</strong><br>文章</div></a>
       <a href="/categories"><div><strong>0</strong><br>分类</div></a>
       <a href="/tags"><div><strong>0</strong><br>标签</div></a>
     </div>
