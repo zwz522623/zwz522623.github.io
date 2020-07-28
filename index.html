@@ -45,7 +45,7 @@
     <h2 class="author">ZWZ</h2>
     <h3 class="description">调参侠，爱好是用各种轮子拼一辆小破车</h3>
     <div class="count-box">
-      <a href="/archives"><div><strong>10</strong><br>文章</div></a>
+      <a href="/archives"><div><strong>11</strong><br>文章</div></a>
       <a href="/categories"><div><strong>0</strong><br>分类</div></a>
       <a href="/tags"><div><strong>0</strong><br>标签</div></a>
     </div>
@@ -72,6 +72,57 @@
 </div>
 
         <section id="main">
+  
+    <article id="post-基本定时器" class="wow slideInRight article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/07/28/%E5%9F%BA%E6%9C%AC%E5%AE%9A%E6%97%B6%E5%99%A8/" class="article-date">
+  <time class="post-time" datetime="2020-07-28T09:48:55.601Z" itemprop="datePublished">
+    <span class="post-month">7月</span><br/>
+    <span class="post-day">28</span>
+  </time>
+</a>
+   
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/07/28/%E5%9F%BA%E6%9C%AC%E5%AE%9A%E6%97%B6%E5%99%A8/">基本定时器</a>
+    </h1>
+  
+
+        <div>
+          
+          
+              
+
+          
+        </div>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>STM32的定时器分类有以下三种：<br>(1):基本定时器(只有定时功能)<br>(2):通用定时器(输出比较，输入捕获)<br>(3):高级定时器(包括了基本定时器与通用定时器)</p>
+<h2 id="基本定时器特性"><a href="#基本定时器特性" class="headerlink" title="基本定时器特性"></a>基本定时器特性</h2><p>1)16BIT计数器，只能向上计数，通道只有定时器TIM6与TIM7.<br>2)内部资源，没有外部的GPIO,只能定时。<br>3)时钟来自PCLK1,为72M,可实现1-65536分频。</p>
+<h2 id="时基初始化结构体"><a href="#时基初始化结构体" class="headerlink" title="时基初始化结构体"></a>时基初始化结构体</h2><p><a href="https://imgchr.com/i/aEbF8s" target="_blank" rel="noopener"><img src="https://s1.ax1x.com/2020/07/28/aEbF8s.png" alt="时基初始化结构体"></a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://zwz522623.github.io.git/2020/07/28/%E5%9F%BA%E6%9C%AC%E5%AE%9A%E6%97%B6%E5%99%A8/" data-id="ckd5xazgp0000ukur4x5b7wmj" class="article-share-link">分享</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+
   
     <article id="post-STM32 DMA读取多通道ADC" class="wow slideInRight article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
@@ -649,68 +700,11 @@ GPIO_ResetBits(GPIOC,GPIO_Pin_2);//复位，输出低</code></pre>
 
 
   
-    <article id="post-hello-world" class="wow slideInRight article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2020/05/30/hello-world/" class="article-date">
-  <time class="post-time" datetime="2020-05-30T09:39:03.571Z" itemprop="datePublished">
-    <span class="post-month">5月</span><br/>
-    <span class="post-day">30</span>
-  </time>
-</a>
-   
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/05/30/hello-world/">Hello World</a>
-    </h1>
-  
-
-        <div>
-          
-          
-              
-
-          
-        </div>
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Hello-Hexo"><a href="#Hello-Hexo" class="headerlink" title="Hello Hexo"></a>Hello Hexo</h2><h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html" target="_blank" rel="noopener">Deployment</a></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://zwz522623.github.io.git/2020/05/30/hello-world/" data-id="ckatgcngh00000sur56tq2sbf" class="article-share-link">分享</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
 
 
-
-
-  
-
+  <nav id="page-nav">
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">next &amp;raquo;</a>
+  </nav>
 </section>
         
           <aside id="sidebar">
@@ -750,7 +744,7 @@ GPIO_ResetBits(GPIOC,GPIO_Pin_2);//复位，输出低</code></pre>
     <h2 class="author">ZWZ</h2>
     <h3 class="description">调参侠，爱好是用各种轮子拼一辆小破车</h3>
     <div class="count-box">
-      <a href="/archives"><div><strong>10</strong><br>文章</div></a>
+      <a href="/archives"><div><strong>11</strong><br>文章</div></a>
       <a href="/categories"><div><strong>0</strong><br>分类</div></a>
       <a href="/tags"><div><strong>0</strong><br>标签</div></a>
     </div>
