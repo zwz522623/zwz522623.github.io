@@ -45,7 +45,7 @@
     <h2 class="author">ZWZ</h2>
     <h3 class="description">纸上得来终觉浅，绝知此事要躬行</h3>
     <div class="count-box">
-      <a href="/archives"><div><strong>11</strong><br>文章</div></a>
+      <a href="/archives"><div><strong>12</strong><br>文章</div></a>
       <a href="/categories"><div><strong>0</strong><br>分类</div></a>
       <a href="/tags"><div><strong>0</strong><br>标签</div></a>
     </div>
@@ -72,6 +72,61 @@
 </div>
 
         <section id="main">
+  
+    <article id="post-高级定时器" class="wow slideInRight article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/07/30/%E9%AB%98%E7%BA%A7%E5%AE%9A%E6%97%B6%E5%99%A8/" class="article-date">
+  <time class="post-time" datetime="2020-07-30T11:26:57.409Z" itemprop="datePublished">
+    <span class="post-month">7月</span><br/>
+    <span class="post-day">30</span>
+  </time>
+</a>
+   
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/07/30/%E9%AB%98%E7%BA%A7%E5%AE%9A%E6%97%B6%E5%99%A8/">高级定时器</a>
+    </h1>
+  
+
+        <div>
+          
+          
+              
+
+          
+        </div>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="定时器特性"><a href="#定时器特性" class="headerlink" title="定时器特性"></a>定时器特性</h2><p><img src="https://s1.ax1x.com/2020/07/30/aKBwgU.png" alt="定时器特性"></p>
+<p>高级定时器简介<br>1）16bit计数器，上下两边计数。通道为TIM1与TIM8,独有重复计数器<br>2）有四个GPIO,其中通道一到三还有互补输出<br>3）时钟来自PCLK2,为72M，可实现1-65536分频<br>注：基本与通用定时器的时钟源来自PCLK1</p>
+<h2 id="高级定时器功能框图"><a href="#高级定时器功能框图" class="headerlink" title="高级定时器功能框图"></a>高级定时器功能框图</h2><p><a href="https://imgchr.com/i/aKDyQS" target="_blank" rel="noopener"><img src="https://s1.ax1x.com/2020/07/30/aKDyQS.md.png" alt="高级定时器功能框图"></a></p>
+<h3 id="时钟源"><a href="#时钟源" class="headerlink" title="时钟源"></a>时钟源</h3><p>1、内部时钟源：CK_INT<br>2、外部时钟模式1–外部的GPIOx(x=1,2,3,4)<br>3、外部时钟模式2–外部的GPIO ETR<br>4、内部触发输入<br>注：2,3,4均不常用</p>
+<h3 id="控制器"><a href="#控制器" class="headerlink" title="控制器"></a>控制器</h3><p>用来控制及发送命令<br>主要学习CR1,CR2,SMCR,CCER几个即可</p>
+<h3 id="时基单元"><a href="#时基单元" class="headerlink" title="时基单元"></a>时基单元</h3><p><a href="https://imgchr.com/i/aKrNlT" target="_blank" rel="noopener"><img src="https://s1.ax1x.com/2020/07/30/aKrNlT.md.png" alt="时基单元"></a><br>1、预分频器：TIM_PSC:对PCLK分频<br>2、16位计数器<br>3、8位重复计数器<br>4、16位的自动重装载计数器</p>
+<h2 id="自举电容"><a href="#自举电容" class="headerlink" title="自举电容"></a>自举电容</h2><p><a href="https://imgchr.com/i/aKs8De" target="_blank" rel="noopener"><img src="https://s1.ax1x.com/2020/07/30/aKs8De.png" alt="半桥电路"></a><br>半桥电路的下半桥比较容易理解，无非就是G,S之间达到了导通电压，MOS导通，但是当上半桥导通的时候，<br>如果不看由二极管和电容组成的自举部分，HO的输出是不可能大于VS的，这个时候就需要自举电路部分了，<br>一开始，由电源通过二极管为电容充电，当上管导通时，VS端电压上升，由于二极管的存在，阻止了电容的<br>放电，所以电容两端的电压差不变，就可以持续的导通MOS。其中VB端的电压是由内部的两个串联的mos决定<br>是否加到HO的高侧栅极驱动端<br><a href="https://imgchr.com/i/aK6KOO" target="_blank" rel="noopener"><img src="https://s1.ax1x.com/2020/07/30/aK6KOO.th.png" alt="ir2181内部电路"></a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://zwz522623.github.io.git/2020/07/30/%E9%AB%98%E7%BA%A7%E5%AE%9A%E6%97%B6%E5%99%A8/" data-id="ckd8qw5b00000xgurccyja3gp" class="article-share-link">分享</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+
   
     <article id="post-基本定时器" class="wow slideInRight article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
@@ -649,65 +704,6 @@ GPIO_ResetBits(GPIOC,GPIO_Pin_2);//复位，输出低</code></pre>
 
 
   
-    <article id="post-第一篇个人博客" class="wow slideInRight article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2020/05/30/%E7%AC%AC%E4%B8%80%E7%AF%87%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/" class="article-date">
-  <time class="post-time" datetime="2020-05-30T11:39:52.778Z" itemprop="datePublished">
-    <span class="post-month">5月</span><br/>
-    <span class="post-day">30</span>
-  </time>
-</a>
-   
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/05/30/%E7%AC%AC%E4%B8%80%E7%AF%87%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/">百度人工智能AIP的调用</a>
-    </h1>
-  
-
-        <div>
-          
-          
-              
-
-          
-        </div>
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><p>首先进入百度人工智能的官网主页并选择控制台<br>点击链接:<a href="https://ai.baidu.com/?track=cp:aipinzhuan|pf:pc|pp:AIpingtai|pu:title|ci:|kw:10005792" target="_blank" rel="noopener">主页</a><br>以文字识别为例，点击创建应用。应用名和描述按照自己需求自行决定。没有特殊需求的也可以随便打打（<del>不是</del>），创建完成之后点击下载sdk。由于我是用的python语言，所以选择python的sdk。点击帮助文档。</p>
-<h2 id="安装环境"><a href="#安装环境" class="headerlink" title="安装环境"></a>安装环境</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ pip install baidu-aip %% 已安装pip</span><br></pre></td></tr></table></figure>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ python setup.py install %% 已安装setuptools</span><br></pre></td></tr></table></figure>
-<h2 id="新建AipOcr"><a href="#新建AipOcr" class="headerlink" title="新建AipOcr"></a>新建AipOcr</h2><p>AipOcr是Ocr的python sdk客户端，为使用其的开发人员提供了一系列的交互方法。<br>其中的APPID，Aip Key，Secret Key这三项参数要填自己的参数。这三项均可在控制台中的管理应用里找到</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">from aip import AipOcr</span><br><span class="line"></span><br><span class="line"><span class="string">""</span><span class="string">" 你的 APPID AK SK "</span><span class="string">""</span></span><br><span class="line">APP_ID = <span class="string">'你的 App ID'</span></span><br><span class="line">API_KEY = <span class="string">'你的 Api Key'</span></span><br><span class="line">SECRET_KEY = <span class="string">'你的 Secret Key'</span></span><br><span class="line"></span><br><span class="line">client = AipOcr(APP_ID, API_KEY, SECRET_KEY)</span><br></pre></td></tr></table></figure>
-
-<h3 id="AIP的调用"><a href="#AIP的调用" class="headerlink" title="AIP的调用"></a>AIP的调用</h3><p>读取的本地图片需要更改image = get_file_content(),将括号里的元素改成需要识别的图片的存储路径即可。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">""</span><span class="string">" 读取图片 "</span><span class="string">""</span></span><br><span class="line">def get_file_content(filePath):</span><br><span class="line">    with open(filePath, <span class="string">'rb'</span>) as fp:</span><br><span class="line">        <span class="built_in">return</span> fp.read()</span><br><span class="line"></span><br><span class="line">image = get_file_content(<span class="string">'example.jpg'</span>)</span><br><span class="line"></span><br><span class="line"><span class="string">""</span><span class="string">" 调用通用文字识别, 图片参数为本地图片 "</span><span class="string">""</span></span><br><span class="line">client.basicGeneral(image);</span><br><span class="line"></span><br><span class="line"><span class="string">""</span><span class="string">" 如果有可选参数 "</span><span class="string">""</span></span><br><span class="line">options = &#123;&#125;</span><br><span class="line">options[<span class="string">"language_type"</span>] = <span class="string">"CHN_ENG"</span></span><br><span class="line">options[<span class="string">"detect_direction"</span>] = <span class="string">"true"</span></span><br><span class="line">options[<span class="string">"detect_language"</span>] = <span class="string">"true"</span></span><br><span class="line">options[<span class="string">"probability"</span>] = <span class="string">"true"</span></span><br><span class="line"><span class="string">""</span><span class="string">" 带参数调用通用文字识别, 图片参数为本地图片 "</span><span class="string">""</span></span><br><span class="line">client.basicGeneral(image, options)</span><br></pre></td></tr></table></figure>
-<h2 id="调用结束"><a href="#调用结束" class="headerlink" title="调用结束"></a>调用结束</h2><p>到上面一步调用就已经完成，但是为了方便debug。最好还是打印一下输出</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">a = client.basicGeneral(image, options)</span><br><span class="line"><span class="built_in">print</span>(a)</span><br></pre></td></tr></table></figure>
-<h2 id="注意事项（血泪踩坑史）"><a href="#注意事项（血泪踩坑史）" class="headerlink" title="注意事项（血泪踩坑史）"></a>注意事项（<del>血泪踩坑史</del>）</h2><p>百度人工智能的识别速度由于是在云端计算的，电脑本身的性能和识别速度并无关系。但是，百度看似给了5000或50000的使用裕量。如果进入个死循环的话不一会儿就会使用光了。所以不要以为那个数字很多，其实很快就会使用光的。用光的话就会走你充值的账户余额了，或者干脆停止服务。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://zwz522623.github.io.git/2020/05/30/%E7%AC%AC%E4%B8%80%E7%AF%87%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/" data-id="ckatlnhxw0000dsur4xgz3cg5" class="article-share-link">分享</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-
-  
 
 
   <nav id="page-nav">
@@ -752,7 +748,7 @@ GPIO_ResetBits(GPIOC,GPIO_Pin_2);//复位，输出低</code></pre>
     <h2 class="author">ZWZ</h2>
     <h3 class="description">纸上得来终觉浅，绝知此事要躬行</h3>
     <div class="count-box">
-      <a href="/archives"><div><strong>11</strong><br>文章</div></a>
+      <a href="/archives"><div><strong>12</strong><br>文章</div></a>
       <a href="/categories"><div><strong>0</strong><br>分类</div></a>
       <a href="/tags"><div><strong>0</strong><br>标签</div></a>
     </div>
