@@ -5,14 +5,14 @@
   
   <title>张维尊的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="纸上得来终觉浅，绝知此事要躬行">
+  <meta name="description" content="我们生活的每个日常，都是连续发生的奇迹">
 <meta property="og:type" content="website">
 <meta property="og:title" content="张维尊的博客">
 <meta property="og:url" content="https://zwz522623.github.io.git/index.html">
 <meta property="og:site_name" content="张维尊的博客">
-<meta property="og:description" content="纸上得来终觉浅，绝知此事要躬行">
+<meta property="og:description" content="我们生活的每个日常，都是连续发生的奇迹">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:author" content="ZWZ">
+<meta property="article:author" content="尊某">
 <meta name="twitter:card" content="summary">
   
     <link rel="alternate" href="/atom.xml" title="张维尊的博客" type="application/atom+xml">
@@ -42,10 +42,10 @@
   <h3 class="widget-title"></h3>
   <div class="widget">
     <img class="avatar" src="https://avatars0.githubusercontent.com/u/20333903?v=3&amp;s=460">
-    <h2 class="author">ZWZ</h2>
-    <h3 class="description">纸上得来终觉浅，绝知此事要躬行</h3>
+    <h2 class="author">尊某</h2>
+    <h3 class="description">我们生活的每个日常，都是连续发生的奇迹</h3>
     <div class="count-box">
-      <a href="/archives"><div><strong>12</strong><br>文章</div></a>
+      <a href="/archives"><div><strong>13</strong><br>文章</div></a>
       <a href="/categories"><div><strong>0</strong><br>分类</div></a>
       <a href="/tags"><div><strong>0</strong><br>标签</div></a>
     </div>
@@ -72,6 +72,56 @@
 </div>
 
         <section id="main">
+  
+    <article id="post-互补PWM" class="wow slideInRight article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/07/30/%E4%BA%92%E8%A1%A5PWM/" class="article-date">
+  <time class="post-time" datetime="2020-07-30T12:29:13.133Z" itemprop="datePublished">
+    <span class="post-month">7月</span><br/>
+    <span class="post-day">30</span>
+  </time>
+</a>
+   
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/07/30/%E4%BA%92%E8%A1%A5PWM/">互补PWM实验</a>
+    </h1>
+  
+
+        <div>
+          
+          
+              
+
+          
+        </div>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br></pre></td><td class="code"><pre><span class="line">static void ADVANCE_TIM_GPIO_Config(void)</span><br><span class="line">&#123;</span><br><span class="line">		GPIO_InitTypeDef   GPIO_InitStruct;</span><br><span class="line">		//输出比较通道GPIO初始化</span><br><span class="line">		RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA,ENABLE);</span><br><span class="line">		GPIO_InitStruct.GPIO_Mode = GPIO_Mode_AF_PP;</span><br><span class="line">		GPIO_InitStruct.GPIO_Pin = GPIO_Pin_8;</span><br><span class="line">		GPIO_InitStruct.GPIO_Speed = GPIO_Speed_50MHz;</span><br><span class="line">		GPIO_Init(GPIOA,&amp;GPIO_InitStruct);</span><br><span class="line">		//输出比较互补通道GPIO初始化</span><br><span class="line">		RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB,ENABLE);</span><br><span class="line">		GPIO_InitStruct.GPIO_Mode = GPIO_Mode_AF_PP;</span><br><span class="line">		GPIO_InitStruct.GPIO_Pin = GPIO_Pin_13;</span><br><span class="line">		GPIO_InitStruct.GPIO_Speed = GPIO_Speed_50MHz;</span><br><span class="line">		GPIO_Init(GPIOB,&amp;GPIO_InitStruct);</span><br><span class="line">		//输出比较刹车通道GPIO初始化</span><br><span class="line">		RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB,ENABLE);</span><br><span class="line">		GPIO_InitStruct.GPIO_Mode = GPIO_Mode_AF_PP;</span><br><span class="line">		GPIO_InitStruct.GPIO_Pin = GPIO_Pin_12;</span><br><span class="line">		GPIO_InitStruct.GPIO_Speed = GPIO_Speed_50MHz;</span><br><span class="line">		//BKIN引脚先默认输出低电平</span><br><span class="line">		GPIO_ResetBits(GPIOB,GPIO_Pin_12);</span><br><span class="line">		</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">static void ADVANE_TIM_MODE_Config(void)</span><br><span class="line">&#123;</span><br><span class="line">		RCC_APB2PeriphClockCmd(RCC_APB2Periph_TIM1,ENABLE);</span><br><span class="line">		//时基结构体初始化	</span><br><span class="line">		TIM_TimeBaseInitTypeDef    TIM_TimeBaseInitStruct;</span><br><span class="line">		//自动重装载寄存器的值，累计TIM_Period+1的频率后产生一个中断或者更新</span><br><span class="line">		TIM_TimeBaseInitStruct.TIM_Period = ADVANCE_TIM_PERIOD;</span><br><span class="line">		//驱动CNT计数器的时钟 = Fck_int/(psc+1)，他和上面决定了PWM的周期</span><br><span class="line">		TIM_TimeBaseInitStruct.TIM_Prescaler = ADVANCE_TIM_PSC;</span><br><span class="line">		//时钟分频因子，配置死区时间用到</span><br><span class="line">		TIM_TimeBaseInitStruct.TIM_ClockDivision = TIM_CKD_DIV1;</span><br><span class="line">		// 计数器计数模式设置为向上计数</span><br><span class="line">		TIM_TimeBaseInitStruct.TIM_CounterMode = TIM_CounterMode_Up;</span><br><span class="line">		//重复计数器的值，没用到不用管</span><br><span class="line">		TIM_TimeBaseInitStruct.TIM_RepetitionCounter = 0;</span><br><span class="line">		//初始化定时器</span><br><span class="line">		TIM_TimeBaseInit(TIM1,&amp;TIM_TimeBaseInitStruct);</span><br><span class="line">		</span><br><span class="line">		//输出比较结构体初始化</span><br><span class="line">		TIM_OCInitTypeDef    TIM_OCInitStruct;</span><br><span class="line">		//配置模式为PWM1</span><br><span class="line">		TIM_OCInitStruct.TIM_OCMode = TIM_OCMode_PWM1;</span><br><span class="line">		//输出使能</span><br><span class="line">		TIM_OCInitStruct.TIM_OutputState = TIM_OutputState_Enable;</span><br><span class="line">		//互补输出使能</span><br><span class="line">		TIM_OCInitStruct.TIM_OutputNState = TIM_OutputNState_Enable;</span><br><span class="line">		//设置占空比大小</span><br><span class="line">		TIM_OCInitStruct.TIM_Pulse = ADVANCE_TIM_PULSE;</span><br><span class="line">		//输出通道电平极性配置</span><br><span class="line">		TIM_OCInitStruct.TIM_OCPolarity = TIM_OCPolarity_High;</span><br><span class="line">		//互补通道电平极性配置</span><br><span class="line">		TIM_OCInitStruct.TIM_OCNPolarity = TIM_OCNPolarity_High;</span><br><span class="line">		//输出通道空闲电平配置</span><br><span class="line">		TIM_OCInitStruct.TIM_OCIdleState = TIM_OCIdleState_Set;</span><br><span class="line">		//互补通道空闲电平配置</span><br><span class="line">		TIM_OCInitStruct.TIM_OCNIdleState = TIM_OCNIdleState_Reset;</span><br><span class="line">		TIM_OC1Init(TIM1,&amp;TIM_OCInitStruct);</span><br><span class="line">		TIM_OC1PreloadConfig(TIM1,TIM_OCPreload_Enable);</span><br><span class="line">		</span><br><span class="line">		//刹车和死区结构体初始化</span><br><span class="line">		TIM_BDTRInitTypeDef    TIM_BDTRInitStruct;</span><br><span class="line">		//有关刹车和死区结构体的成员具体可参考BDTR寄存器的描述、</span><br><span class="line">		TIM_BDTRInitStruct.TIM_OSSRState = TIM_OSSRState_Enable;</span><br><span class="line">		TIM_BDTRInitStruct.TIM_OSSIState = TIM_OSSIState_Enable;</span><br><span class="line">		TIM_BDTRInitStruct.TIM_LOCKLevel = TIM_LOCKLevel_1;</span><br><span class="line">		//输出比较信号死区时间配置，计算方法参考BDTR:UTG[7:0]的描述</span><br><span class="line">		//这里配置为152ns</span><br><span class="line">		TIM_BDTRInitStruct.TIM_DeadTime = 11;</span><br><span class="line">		TIM_BDTRInitStruct.TIM_Break = TIM_Break_Enable;</span><br><span class="line">		//当BKIN引脚检测到高电平的时候，输出信号禁止，如同刹车一般</span><br><span class="line">		TIM_BDTRInitStruct.TIM_BreakPolarity = TIM_BreakPolarity_High;</span><br><span class="line">		TIM_BDTRInitStruct.TIM_AutomaticOutput = TIM_AutomaticOutput_Enable;</span><br><span class="line">		TIM_BDTRConfig(TIM1,&amp;TIM_BDTRInitStruct);</span><br><span class="line">		</span><br><span class="line">		//使能计数器</span><br><span class="line">		TIM_Cmd(TIM1,ENABLE);</span><br><span class="line">		//主输出使能，当使用的是通用定时器时，这句不需要</span><br><span class="line">		TIM_CtrlPWMOutputs(TIM1,ENABLE);</span><br><span class="line">	</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">void ADVANCE_TIM_Init(void)</span><br><span class="line">&#123;</span><br><span class="line">	ADVANCE_TIM_GPIO_Config();</span><br><span class="line">	ADVANE_TIM_MODE_Config();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>无中断，在主函数中调用ADVANCE_TIM_Init();即可输出互补的带死区时间刹车控制的PWM</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://zwz522623.github.io.git/2020/07/30/%E4%BA%92%E8%A1%A5PWM/" data-id="ckd8s0y5d0000q0ure3ib0e6l" class="article-share-link">分享</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+
   
     <article id="post-高级定时器" class="wow slideInRight article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
@@ -652,59 +702,6 @@ GPIO_ResetBits(GPIOC,GPIO_Pin_2);//复位，输出低</code></pre>
 
 
   
-    <article id="post-Markdown语法" class="wow slideInRight article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2020/05/31/Markdown%E8%AF%AD%E6%B3%95/" class="article-date">
-  <time class="post-time" datetime="2020-05-30T23:46:42.162Z" itemprop="datePublished">
-    <span class="post-month">5月</span><br/>
-    <span class="post-day">31</span>
-  </time>
-</a>
-   
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/05/31/Markdown%E8%AF%AD%E6%B3%95/">Hello MarkDown</a>
-    </h1>
-  
-
-        <div>
-          
-          
-              
-
-          
-        </div>
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="基础的语句介绍"><a href="#基础的语句介绍" class="headerlink" title="基础的语句介绍"></a>基础的语句介绍</h2><h3 id="简易的分支语句"><a href="#简易的分支语句" class="headerlink" title="简易的分支语句"></a>简易的分支语句</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">##代表着第一层###代表着第一层的分支####代表着下一层的分支，合理利用就能更方便的在想要查找的时候更加方便</span></span><br></pre></td></tr></table></figure>
-<h4 id="第三层"><a href="#第三层" class="headerlink" title="第三层"></a>第三层</h4><h5 id="第五层"><a href="#第五层" class="headerlink" title="第五层"></a>第五层</h5><h3 id="如何放置程序段"><a href="#如何放置程序段" class="headerlink" title="如何放置程序段"></a>如何放置程序段</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">效果如下：</span><br><span class="line">&#96;&#96;&#96; bash</span><br><span class="line">效果展示</span><br></pre></td></tr></table></figure>
-
-<p>###如何加入超链接<br>More Info: + [自定义的按键名] +（想要放置的链接）<br>效果如下：<br>More Info: <a href="chrome://dino">点击即玩</a></p>
-<h2 id="花里胡哨的用法"><a href="#花里胡哨的用法" class="headerlink" title="花里胡哨的用法"></a>花里胡哨的用法</h2><p>（<del>没有</del>）</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://zwz522623.github.io.git/2020/05/31/Markdown%E8%AF%AD%E6%B3%95/" data-id="ckauav4oc0000h8ur8y3v7vkc" class="article-share-link">分享</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-
-  
 
 
   <nav id="page-nav">
@@ -746,10 +743,10 @@ GPIO_ResetBits(GPIOC,GPIO_Pin_2);//复位，输出低</code></pre>
   <h3 class="widget-title"></h3>
   <div class="widget">
     <img class="avatar" src="https://avatars0.githubusercontent.com/u/20333903?v=3&amp;s=460">
-    <h2 class="author">ZWZ</h2>
-    <h3 class="description">纸上得来终觉浅，绝知此事要躬行</h3>
+    <h2 class="author">尊某</h2>
+    <h3 class="description">我们生活的每个日常，都是连续发生的奇迹</h3>
     <div class="count-box">
-      <a href="/archives"><div><strong>12</strong><br>文章</div></a>
+      <a href="/archives"><div><strong>13</strong><br>文章</div></a>
       <a href="/categories"><div><strong>0</strong><br>分类</div></a>
       <a href="/tags"><div><strong>0</strong><br>标签</div></a>
     </div>
@@ -783,7 +780,7 @@ GPIO_ResetBits(GPIOC,GPIO_Pin_2);//复位，输出低</code></pre>
   
   <div class="outer">
     <div id="footer-info" class="inner">
-      &copy;2019 - 2020 ZWZ<br>
+      &copy;2019 - 2020 尊某<br>
       由<a href="http://hexo.io/" target="_blank">Hexo</a>强力驱动 | 
       主题-<a href="https://github.com/ShanaMaid/hexo-theme-shana" target="_blank" rel="noopener">Shana</a>
       
