@@ -45,7 +45,7 @@
     <h2 class="author">尊某</h2>
     <h3 class="description">我们生活的每个日常，都是连续发生的奇迹</h3>
     <div class="count-box">
-      <a href="/archives"><div><strong>13</strong><br>文章</div></a>
+      <a href="/archives"><div><strong>14</strong><br>文章</div></a>
       <a href="/categories"><div><strong>0</strong><br>分类</div></a>
       <a href="/tags"><div><strong>0</strong><br>标签</div></a>
     </div>
@@ -72,6 +72,72 @@
 </div>
 
         <section id="main">
+  
+    <article id="post-软件模拟IIC" class="wow slideInRight article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/08/01/%E8%BD%AF%E4%BB%B6%E6%A8%A1%E6%8B%9FIIC/" class="article-date">
+  <time class="post-time" datetime="2020-08-01T11:23:12.111Z" itemprop="datePublished">
+    <span class="post-month">8月</span><br/>
+    <span class="post-day">01</span>
+  </time>
+</a>
+   
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/08/01/%E8%BD%AF%E4%BB%B6%E6%A8%A1%E6%8B%9FIIC/">软件模拟IIC</a>
+    </h1>
+  
+
+        <div>
+          
+          
+              
+
+          
+        </div>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>STM32自带硬件iic，但是由于引脚固定，使用起来不是很灵活，因此<br>选择了软件模拟iic。</p>
+<h2 id="IIC起始信号"><a href="#IIC起始信号" class="headerlink" title="IIC起始信号"></a>IIC起始信号</h2><p>IIC的起始信号是在scl为高电平的时候，sda产生一个下降沿为IIC起始信号</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">void i2c_Start(void)</span><br><span class="line">&#123;</span><br><span class="line">	/* 当SCL高电平时，SDA出现一个下跳沿表示I2C总线启动信号 */</span><br><span class="line">	I2C_SDA_1();      //先把两条线同时拉高做准备</span><br><span class="line">	I2C_SCL_1();</span><br><span class="line">	i2c_Delay();</span><br><span class="line">	I2C_SDA_0();     //延时一段时间后将sda拉低并保持延时一段时间</span><br><span class="line">	i2c_Delay();</span><br><span class="line">	</span><br><span class="line">	I2C_SCL_0();     //将时钟线拉低，准备数据的传输，IIC数据为在时钟线为高时有效</span><br><span class="line">	i2c_Delay();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">static void i2c_Delay(void)</span><br><span class="line">&#123;</span><br><span class="line">	uint8_t i;</span><br><span class="line"></span><br><span class="line">	/*　</span><br><span class="line">		CPU主频168MHz时，在内部Flash运行, MDK工程不优化。用台式示波器观测波形。</span><br><span class="line">		循环次数为5时，SCL频率 = 1.78MHz (读耗时: 92ms, 读写正常，但是用示波器探头碰上就读写失败。时序接近临界)</span><br><span class="line">		循环次数为10时，SCL频率 = 1.1MHz (读耗时: 138ms, 读速度: 118724B/s)</span><br><span class="line">		循环次数为30时，SCL频率 = 440KHz， SCL高电平时间1.0us，SCL低电平时间1.2us</span><br><span class="line"></span><br><span class="line">		上拉电阻选择2.2K欧时，SCL上升沿时间约0.5us，如果选4.7K欧，则上升沿约1us</span><br><span class="line"></span><br><span class="line">		实际应用选择400KHz左右的速率即可</span><br><span class="line">	*/</span><br><span class="line">	<span class="keyword">for</span> (i = 0; i &lt; 30; i++);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="IIC结束信号"><a href="#IIC结束信号" class="headerlink" title="IIC结束信号"></a>IIC结束信号</h2><p>当scl时钟线为高的时候，sda出现上升沿视为IIC结束信号</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">void i2c_Stop(void)</span><br><span class="line">&#123;</span><br><span class="line">	/* 当SCL高电平时，SDA出现一个上跳沿表示I2C总线停止信号 */</span><br><span class="line">	I2C_SDA_0();</span><br><span class="line">	I2C_SCL_1();</span><br><span class="line">	i2c_Delay();</span><br><span class="line">	I2C_SDA_1();</span><br><span class="line">	i2c_Delay();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="cpu向从机发送8Bit数据"><a href="#cpu向从机发送8Bit数据" class="headerlink" title="cpu向从机发送8Bit数据"></a>cpu向从机发送8Bit数据</h2><p>先准备好数据再拉高时钟线</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">void i2c_SendByte(uint8_t _ucByte)</span><br><span class="line">&#123;</span><br><span class="line">	uint8_t i;</span><br><span class="line"></span><br><span class="line">	/* 先发送字节的高位bit7 */</span><br><span class="line">	<span class="keyword">for</span> (i = 0; i &lt; 8; i++)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span> (_ucByte &amp; 0x80)       //将数据与0x80做与运算，即提取数据最高位</span><br><span class="line">		&#123;</span><br><span class="line">			I2C_SDA_1();</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span></span><br><span class="line">		&#123;</span><br><span class="line">			I2C_SDA_0();</span><br><span class="line">		&#125;</span><br><span class="line">		i2c_Delay();     //在时钟线为高之前准备好数据</span><br><span class="line">		I2C_SCL_1();     //时钟线为高开始发送数据</span><br><span class="line">		i2c_Delay();</span><br><span class="line">		I2C_SCL_0();     //保持一段时间后将时钟线拉低准备下一次的传输</span><br><span class="line">		<span class="keyword">if</span> (i == 7)      //判断7个数据是否传输完成，若完成，则释放sda总线（SDA拉高）</span><br><span class="line">		&#123;</span><br><span class="line">			 I2C_SDA_1(); // 释放总线</span><br><span class="line">		&#125;</span><br><span class="line">		_ucByte &lt;&lt;= 1;	/* 左移一个bit *///将数据左移一位，即传输下一位</span><br><span class="line">		i2c_Delay();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="cpu读取从机8Bit数据"><a href="#cpu读取从机8Bit数据" class="headerlink" title="cpu读取从机8Bit数据"></a>cpu读取从机8Bit数据</h2><p>与写数据相反，先拉高时钟线，准备好了之后读取数据</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">uint8_t i2c_ReadByte(void)</span><br><span class="line">&#123;</span><br><span class="line">	uint8_t i;</span><br><span class="line">	uint8_t value;</span><br><span class="line"></span><br><span class="line">	/* 读到第1个bit为数据的bit7 所以数据需要左移*/</span><br><span class="line">	value = 0;</span><br><span class="line">	<span class="keyword">for</span> (i = 0; i &lt; 8; i++)</span><br><span class="line">	&#123;</span><br><span class="line">		value &lt;&lt;= 1;</span><br><span class="line">		I2C_SCL_1();</span><br><span class="line">		i2c_Delay();</span><br><span class="line">		<span class="keyword">if</span> (I2C_SDA_READ())</span><br><span class="line">		&#123;</span><br><span class="line">			value++;</span><br><span class="line">		&#125;</span><br><span class="line">		I2C_SCL_0();</span><br><span class="line">		i2c_Delay();</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">return</span> value;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="主机等待从机应答"><a href="#主机等待从机应答" class="headerlink" title="主机等待从机应答"></a>主机等待从机应答</h2><p>传送完8个数据后，由CPU产生一个时钟，并读取器件的ACK应答</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">uint8_t i2c_WaitAck(void)</span><br><span class="line">&#123;</span><br><span class="line">	uint8_t re;</span><br><span class="line"></span><br><span class="line">	I2C_SDA_1();	/* CPU释放SDA总线 */</span><br><span class="line">	i2c_Delay();</span><br><span class="line">	I2C_SCL_1();	/* CPU驱动SCL = 1, 此时器件会返回ACK应答 */</span><br><span class="line">	i2c_Delay();</span><br><span class="line">	<span class="keyword">if</span> (I2C_SDA_READ())	/* CPU读取SDA口线状态 */</span><br><span class="line">	&#123;</span><br><span class="line">		re = 1;         //为1则是无响应</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span></span><br><span class="line">	&#123;</span><br><span class="line">		re = 0;</span><br><span class="line">	&#125;</span><br><span class="line">	I2C_SCL_0();</span><br><span class="line">	i2c_Delay();</span><br><span class="line">	<span class="built_in">return</span> re;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="主机产生ACK信号"><a href="#主机产生ACK信号" class="headerlink" title="主机产生ACK信号"></a>主机产生ACK信号</h2><p>当主机接收到8位数据后会产生ACK应答信号</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">void i2c_Ack(void)</span><br><span class="line">&#123;</span><br><span class="line">	I2C_SDA_0();	/* CPU驱动SDA = 0 */</span><br><span class="line">	i2c_Delay();</span><br><span class="line">	I2C_SCL_1();	/* CPU产生1个时钟 */</span><br><span class="line">	i2c_Delay();</span><br><span class="line">	I2C_SCL_0();</span><br><span class="line">	i2c_Delay();</span><br><span class="line">	I2C_SDA_1();	/* CPU释放SDA总线 */</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="主机产生Nack无应答信号"><a href="#主机产生Nack无应答信号" class="headerlink" title="主机产生Nack无应答信号"></a>主机产生Nack无应答信号</h2><p>通常用于数据传输结束</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">void i2c_NAck(void)</span><br><span class="line">&#123;</span><br><span class="line">	I2C_SDA_1();	/* CPU驱动SDA = 1 */</span><br><span class="line">	i2c_Delay();</span><br><span class="line">	I2C_SCL_1();	/* CPU产生1个时钟 */</span><br><span class="line">	i2c_Delay();</span><br><span class="line">	I2C_SCL_0();</span><br><span class="line">	i2c_Delay();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="模拟IIC引脚初始化"><a href="#模拟IIC引脚初始化" class="headerlink" title="模拟IIC引脚初始化"></a>模拟IIC引脚初始化</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">void bsp_InitI2C(void)</span><br><span class="line">&#123;</span><br><span class="line">	GPIO_InitTypeDef GPIO_InitStructure;</span><br><span class="line"></span><br><span class="line">	RCC_APB2PeriphClockCmd(RCC_I2C_PORT, ENABLE);	/* 打开GPIO时钟 */</span><br><span class="line"></span><br><span class="line">	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;</span><br><span class="line">	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_OD;	/* 开漏输出模式 */</span><br><span class="line">	</span><br><span class="line">	GPIO_InitStructure.GPIO_Pin = PIN_I2C_SCL;</span><br><span class="line">	GPIO_Init(PORT_I2C_SCL, &amp;GPIO_InitStructure);</span><br><span class="line"></span><br><span class="line">	GPIO_InitStructure.GPIO_Pin = PIN_I2C_SDA;</span><br><span class="line">	GPIO_Init(PORT_I2C_SDA, &amp;GPIO_InitStructure);</span><br><span class="line"></span><br><span class="line">	/* 给一个停止信号, 复位I2C总线上的所有设备到待机模式 */</span><br><span class="line">	i2c_Stop();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="引脚相关宏定义"><a href="#引脚相关宏定义" class="headerlink" title="引脚相关宏定义"></a>引脚相关宏定义</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#define I2C_WR	0		/* 写控制bit */</span></span><br><span class="line"><span class="comment">#define I2C_RD	1		/* 读控制bit */</span></span><br><span class="line"><span class="comment">#define RCC_I2C_PORT 	RCC_APB2Periph_GPIOB		/* GPIO端口时钟 */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#define PORT_I2C_SCL	GPIOB			/* GPIO端口 */</span></span><br><span class="line"><span class="comment">#define PIN_I2C_SCL		GPIO_Pin_6		/* GPIO引脚 */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#define PORT_I2C_SDA	GPIOB			/* GPIO端口 */</span></span><br><span class="line"><span class="comment">#define PIN_I2C_SDA		GPIO_Pin_5	/* GPIO引脚 */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#define I2C_SCL_PIN		GPIO_Pin_6			/* 连接到SCL时钟线的GPIO */</span></span><br><span class="line"><span class="comment">#define I2C_SDA_PIN		GPIO_Pin_5			/* 连接到SDA数据线的GPIO */</span></span><br><span class="line"></span><br><span class="line">/* 定义读写SCL和SDA的宏 */</span><br><span class="line"><span class="comment">#define I2C_SCL_1()  PORT_I2C_SCL-&gt;BSRR = I2C_SCL_PIN				/* SCL = 1 */</span></span><br><span class="line"><span class="comment">#define I2C_SCL_0()  PORT_I2C_SCL-&gt;BRR = I2C_SCL_PIN				/* SCL = 0 */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#define I2C_SDA_1()  PORT_I2C_SDA-&gt;BSRR = I2C_SDA_PIN				/* SDA = 1 */</span></span><br><span class="line"><span class="comment">#define I2C_SDA_0()  PORT_I2C_SDA-&gt;BRR = I2C_SDA_PIN				/* SDA = 0 */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#define I2C_SDA_READ()  ((PORT_I2C_SDA-&gt;IDR &amp; I2C_SDA_PIN) != 0)	/* 读SDA口线状态 */</span></span><br><span class="line"><span class="comment">#define I2C_SCL_READ()  ((PORT_I2C_SCL-&gt;IDR &amp; I2C_SCL_PIN) != 0)	/* 读SCL口线状态 */</span></span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://zwz522623.github.io.git/2020/08/01/%E8%BD%AF%E4%BB%B6%E6%A8%A1%E6%8B%9FIIC/" data-id="ckdbklg660000sgur8ps4g05m" class="article-share-link">分享</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+
   
     <article id="post-互补PWM" class="wow slideInRight article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
@@ -632,74 +698,6 @@ GPIO_ResetBits(GPIOC,GPIO_Pin_2);//复位，输出低</code></pre>
 
 
   
-    <article id="post-自制全志H3linux卡片电脑" class="wow slideInRight article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2020/06/01/%E8%87%AA%E5%88%B6%E5%85%A8%E5%BF%97H3linux%E5%8D%A1%E7%89%87%E7%94%B5%E8%84%91/" class="article-date">
-  <time class="post-time" datetime="2020-06-01T07:21:10.081Z" itemprop="datePublished">
-    <span class="post-month">6月</span><br/>
-    <span class="post-day">01</span>
-  </time>
-</a>
-   
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/06/01/%E8%87%AA%E5%88%B6%E5%85%A8%E5%BF%97H3linux%E5%8D%A1%E7%89%87%E7%94%B5%E8%84%91/">Hello Linux</a>
-    </h1>
-  
-
-        <div>
-          
-          
-              
-
-          
-        </div>
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="挖坑原因"><a href="#挖坑原因" class="headerlink" title="挖坑原因"></a>挖坑原因</h2><pre><code>之前也玩过各种各样的pi，什么树莓派，荔枝派，jestonnano。
-玩着玩着感觉这个东西虽然说是好用，但毕竟不是自己做出来的
-东西。尤其是树莓派，使用的是博通的一款arm芯片，说是开源的，
-但实际上只有管脚口的定义，并没有真正意义上的开源。加上前几
-天稚辉大佬做的一款linux卡片电脑，做的十分小巧。就激发了我
-也做一款属于自己的卡片电脑的想法。</code></pre><h2 id="难点"><a href="#难点" class="headerlink" title="难点"></a>难点</h2><pre><code>这个项目的主要难点便是ddr3的走线。由于之前设计的电路频率
-一般都不高，几乎是走通就可以用的那种。但是由于ddr3是高速
-并行信号线。要做好信号线的等长处理，ddr3中还有差分信号对。
-所以还要学会走差分信号线。另一个最主要的点便是如何在把板
-子做的足够小的同时还能减少板子的层数。四层板由于嘉立创目
-前打折5cm*5cm的只需要30块钱，所以优先考虑四层板。六层板
-打样价格飞起，暂不考虑。</code></pre><h2 id="ddr3走线注意事项"><a href="#ddr3走线注意事项" class="headerlink" title="ddr3走线注意事项"></a>ddr3走线注意事项</h2><pre><code>(1) 支持DDR3，LPDDR2LPDDR3，使用时需先确定DRAM的类型，
-以及单片的位宽。
-(2) 主控和DRAM端每一个ZQ PIN都必须接240R-1%精度的下
-拉到地电阻。
-(3) SDQ0-SDQ7，SDQ8-SDQ15，SDQ16-SDQ23，SDQ24-SDQ31
-分别为4组数据线， 若用DDR 3， 则可以进行组内或者组间交换，
-若进行组间交换，则相应的SDQM和SDQS差分对也必须对应交换。
-(4)若用LPDDR2或者LPDDR3，则SDQ0-SDQ7，SDQM0，SDQ0，SDQS0B
-必须与主控一一对应连接，而其他高位的3组DQ以及高位的DQM和DQS差分对
-，则与DDR3类似，可以进行组内组间交换。</code></pre><h2 id="未完待续"><a href="#未完待续" class="headerlink" title="未完待续"></a>未完待续</h2>
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://zwz522623.github.io.git/2020/06/01/%E8%87%AA%E5%88%B6%E5%85%A8%E5%BF%97H3linux%E5%8D%A1%E7%89%87%E7%94%B5%E8%84%91/" data-id="ckaw78x8x0000xgur6vt6gzcx" class="article-share-link">分享</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-
-  
 
 
   <nav id="page-nav">
@@ -744,7 +742,7 @@ GPIO_ResetBits(GPIOC,GPIO_Pin_2);//复位，输出低</code></pre>
     <h2 class="author">尊某</h2>
     <h3 class="description">我们生活的每个日常，都是连续发生的奇迹</h3>
     <div class="count-box">
-      <a href="/archives"><div><strong>13</strong><br>文章</div></a>
+      <a href="/archives"><div><strong>14</strong><br>文章</div></a>
       <a href="/categories"><div><strong>0</strong><br>分类</div></a>
       <a href="/tags"><div><strong>0</strong><br>标签</div></a>
     </div>

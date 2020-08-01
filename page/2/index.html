@@ -45,7 +45,7 @@
     <h2 class="author">尊某</h2>
     <h3 class="description">我们生活的每个日常，都是连续发生的奇迹</h3>
     <div class="count-box">
-      <a href="/archives"><div><strong>13</strong><br>文章</div></a>
+      <a href="/archives"><div><strong>14</strong><br>文章</div></a>
       <a href="/categories"><div><strong>0</strong><br>分类</div></a>
       <a href="/tags"><div><strong>0</strong><br>标签</div></a>
     </div>
@@ -72,6 +72,74 @@
 </div>
 
         <section id="main">
+  
+    <article id="post-自制全志H3linux卡片电脑" class="wow slideInRight article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/06/01/%E8%87%AA%E5%88%B6%E5%85%A8%E5%BF%97H3linux%E5%8D%A1%E7%89%87%E7%94%B5%E8%84%91/" class="article-date">
+  <time class="post-time" datetime="2020-06-01T07:21:10.081Z" itemprop="datePublished">
+    <span class="post-month">6月</span><br/>
+    <span class="post-day">01</span>
+  </time>
+</a>
+   
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/06/01/%E8%87%AA%E5%88%B6%E5%85%A8%E5%BF%97H3linux%E5%8D%A1%E7%89%87%E7%94%B5%E8%84%91/">Hello Linux</a>
+    </h1>
+  
+
+        <div>
+          
+          
+              
+
+          
+        </div>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="挖坑原因"><a href="#挖坑原因" class="headerlink" title="挖坑原因"></a>挖坑原因</h2><pre><code>之前也玩过各种各样的pi，什么树莓派，荔枝派，jestonnano。
+玩着玩着感觉这个东西虽然说是好用，但毕竟不是自己做出来的
+东西。尤其是树莓派，使用的是博通的一款arm芯片，说是开源的，
+但实际上只有管脚口的定义，并没有真正意义上的开源。加上前几
+天稚辉大佬做的一款linux卡片电脑，做的十分小巧。就激发了我
+也做一款属于自己的卡片电脑的想法。</code></pre><h2 id="难点"><a href="#难点" class="headerlink" title="难点"></a>难点</h2><pre><code>这个项目的主要难点便是ddr3的走线。由于之前设计的电路频率
+一般都不高，几乎是走通就可以用的那种。但是由于ddr3是高速
+并行信号线。要做好信号线的等长处理，ddr3中还有差分信号对。
+所以还要学会走差分信号线。另一个最主要的点便是如何在把板
+子做的足够小的同时还能减少板子的层数。四层板由于嘉立创目
+前打折5cm*5cm的只需要30块钱，所以优先考虑四层板。六层板
+打样价格飞起，暂不考虑。</code></pre><h2 id="ddr3走线注意事项"><a href="#ddr3走线注意事项" class="headerlink" title="ddr3走线注意事项"></a>ddr3走线注意事项</h2><pre><code>(1) 支持DDR3，LPDDR2LPDDR3，使用时需先确定DRAM的类型，
+以及单片的位宽。
+(2) 主控和DRAM端每一个ZQ PIN都必须接240R-1%精度的下
+拉到地电阻。
+(3) SDQ0-SDQ7，SDQ8-SDQ15，SDQ16-SDQ23，SDQ24-SDQ31
+分别为4组数据线， 若用DDR 3， 则可以进行组内或者组间交换，
+若进行组间交换，则相应的SDQM和SDQS差分对也必须对应交换。
+(4)若用LPDDR2或者LPDDR3，则SDQ0-SDQ7，SDQM0，SDQ0，SDQS0B
+必须与主控一一对应连接，而其他高位的3组DQ以及高位的DQM和DQS差分对
+，则与DDR3类似，可以进行组内组间交换。</code></pre><h2 id="未完待续"><a href="#未完待续" class="headerlink" title="未完待续"></a>未完待续</h2>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://zwz522623.github.io.git/2020/06/01/%E8%87%AA%E5%88%B6%E5%85%A8%E5%BF%97H3linux%E5%8D%A1%E7%89%87%E7%94%B5%E8%84%91/" data-id="ckaw78x8x0000xgur6vt6gzcx" class="article-share-link">分享</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+
   
     <article id="post-Markdown语法" class="wow slideInRight article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
@@ -290,7 +358,7 @@
     <h2 class="author">尊某</h2>
     <h3 class="description">我们生活的每个日常，都是连续发生的奇迹</h3>
     <div class="count-box">
-      <a href="/archives"><div><strong>13</strong><br>文章</div></a>
+      <a href="/archives"><div><strong>14</strong><br>文章</div></a>
       <a href="/categories"><div><strong>0</strong><br>分类</div></a>
       <a href="/tags"><div><strong>0</strong><br>标签</div></a>
     </div>
